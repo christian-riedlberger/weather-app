@@ -6,6 +6,9 @@
     "start": "node ./bin/www",
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
+  "engines": {
+    "node": "12.16.3"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "axios-jsonp-pro": "^1.1.8",
