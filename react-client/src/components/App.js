@@ -7,8 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Header from './Header'
-import Forecast from './Forecast'
+import Header from '../components/Header'
+import Weather from '../components/Weather'
 import "../App.css";
 import {
     fetchCities,
@@ -22,10 +22,6 @@ const styles = {
     },
     selectBox: {
       textAlign: 'center' 
-    },
-    textArea: {
-        width: '70%',
-        height: '30%'
     },
     paper: {
         padding: '2em',
@@ -61,13 +57,12 @@ class App extends PureComponent {
         .then(res => {
             if (res.data.error) {
                 this.setState({ 
-                    forecast: res.data.error 
+                    error: res.data.error 
                 })
             }
             else {
                 this.setState({
                     location: location.name, 
-                    forecast: res.data.forecast[1].day,
                     forecasts: res.data.forecast,
                     description: res.data.city.description 
                 })
@@ -75,7 +70,7 @@ class App extends PureComponent {
           
         })
         .catch(error => {
-            this.setState({ forecast: error })
+            this.setState({ error })
         })
 
     }
@@ -106,8 +101,6 @@ class App extends PureComponent {
     render() {
         const { classes } = this.props;
 
-        console.log(this.state.forecasts)
-
         return (
                 <div>
                     <div>
@@ -126,6 +119,7 @@ class App extends PureComponent {
                                 >
                                 {_.map(this.state.cities, option => (
                                     <MenuItem
+                                        key={option.id}
                                         id={option.id}
                                         value={option.label}
                                     >
@@ -146,7 +140,7 @@ class App extends PureComponent {
                                 </Grid>
                             }    
                         </Grid>
-                        <Forecast 
+                        <Weather 
                             forecasts={this.state.forecasts}
                             description={this.state.description}
                         />

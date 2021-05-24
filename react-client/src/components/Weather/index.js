@@ -7,11 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Header from './Header'
-import "../App.css";
-import {
-    fetchForecast
-} from '../actions/ActionTravel';
+import configTable from './config/configTable';
+// import "../App.css";
 
 const styles = {
     formControl: {
@@ -21,10 +18,6 @@ const styles = {
     selectBox: {
       textAlign: 'center' 
     },
-    textArea: {
-        width: '70%',
-        height: '30%'
-    },
     paper: {
         padding: '2em',
         textAlign: 'center',
@@ -32,30 +25,7 @@ const styles = {
     },
 };
 
-const menu = [
-    {
-        'id': '1',
-        'description': 'One Day'
-    },
-    {
-        'id': '2',
-        'description': 'Two Day'       
-    },
-    {
-        'id': '3',
-        'description': 'Three Day'       
-    },
-    {
-        'id': '4',
-        'description': 'Four Day'       
-    },
-    {
-        'id': '5',
-        'description': 'Five Day'       
-    },
-]
-
-class Forecast extends PureComponent {
+class Weather extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,14 +34,11 @@ class Forecast extends PureComponent {
             forecast: 'One Day'
          };
     }
-
-
-    
+   
     /**
-     *  Called whenever location is changed
+     *  Called whenever forecast is changed
      */
     handleChange = (e) => {
-        console.log('Forecats:', e.target.value)
         this.setState({
             forecast: e.target.value,
             count:  e.currentTarget.id
@@ -81,17 +48,12 @@ class Forecast extends PureComponent {
     render() {
         const { classes, forecasts, description } = this.props;
 
-        console.log('Count:', this.state.count)
-        console.log('forecasts:', forecasts)
         let filteredForecast = [];
         if (forecasts) {
-            console.log('test')
             filteredForecast = forecasts.filter((forecast, i) => {
                 return i < this.state.count;
             });
         }    
-
-        console.log(filteredForecast);
 
         return (
             <div>
@@ -108,7 +70,7 @@ class Forecast extends PureComponent {
                                     defaultValue='Forecast'
                                     value={this.state.forecast}
                                 >
-                                {_.map(menu, option => (
+                                {_.map(configTable.menu, option => (
                                     <MenuItem
                                         id={option.id}
                                         value={option.description}
@@ -146,4 +108,4 @@ class Forecast extends PureComponent {
     }
 }
 
-export default withStyles(styles)(Forecast);
+export default withStyles(styles)(Weather);
