@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Header from './Header'
+import Forecast from './Forecast'
 import "../App.css";
 import {
     fetchCities,
@@ -33,7 +34,7 @@ const styles = {
     },
 };
 
-class App extends Component {
+class App extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -105,6 +106,7 @@ class App extends Component {
     render() {
         const { classes } = this.props;
 
+        console.log(this.state.forecasts)
 
         return (
                 <div>
@@ -120,7 +122,6 @@ class App extends Component {
                                     margin="dense"
                                     variant="outlined"
                                     onChange={this.handleChange}
-                                    defaultValue='Location'
                                     value={this.state.location}
                                 >
                                 {_.map(this.state.cities, option => (
@@ -144,27 +145,12 @@ class App extends Component {
                                     <Paper className={classes.paper}>{this.state.description}</Paper>
                                 </Grid>
                             }    
-                        </Grid>   
-                        <Grid container 
-                            spacing={3} 
-                            justify="center"
-                            alignItems="center"
-                            >
-                            {_.map(this.state.forecasts, forecast => (
-                                <Grid item xs={2}>
-                                    <Paper className={classes.paper}>
-                                        <div>{forecast.dayOfWeek}</div>
-                                        <div>{forecast.date}</div>
-                                        <img src={forecast.condition.icon} alt=""/>
-                                        <div>
-                                            <div>{forecast.condition.text}</div>
-                                            <div>{forecast.maxTemp}</div>
-                                            <div>{forecast.minTemp}</div>
-                                        </div>
-                                    </Paper>
-                                </Grid>
-                            ))}     
-                         </Grid>     
+                        </Grid>
+                        <Forecast 
+                            forecasts={this.state.forecasts}
+                            description={this.state.description}
+                        />
+ 
                     </div>
                 </div>                        
         );

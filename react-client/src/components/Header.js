@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
       textAlign: 'center',
-      margin: '0 auto'
+      margin: '1 auto'
   }
 });
 
