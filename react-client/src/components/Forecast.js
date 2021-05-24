@@ -59,10 +59,9 @@ class Forecast extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            count: '0',
-            forecasts: [],
+            count: '1',
             error: '',
-            disabled: true
+            forecast: 'One Day'
          };
     }
 
@@ -72,7 +71,9 @@ class Forecast extends PureComponent {
      *  Called whenever location is changed
      */
     handleChange = (e) => {
-        this.setState({ 
+        console.log('Forecats:', e.target.value)
+        this.setState({
+            forecast: e.target.value,
             count:  e.currentTarget.id
         })
     }
@@ -80,9 +81,17 @@ class Forecast extends PureComponent {
     render() {
         const { classes, forecasts, description } = this.props;
 
-        const filteredForecast = forecasts.filter((forecast, i) => {
-            return i < this.state.count;
-        });
+        console.log('Count:', this.state.count)
+        console.log('forecasts:', forecasts)
+        let filteredForecast = [];
+        if (forecasts) {
+            console.log('test')
+            filteredForecast = forecasts.filter((forecast, i) => {
+                return i < this.state.count;
+            });
+        }    
+
+        console.log(filteredForecast);
 
         return (
             <div>
@@ -97,12 +106,12 @@ class Forecast extends PureComponent {
                                     variant="outlined"
                                     onChange={this.handleChange}
                                     defaultValue='Forecast'
-                                    value={this.state.location}
+                                    value={this.state.forecast}
                                 >
                                 {_.map(menu, option => (
                                     <MenuItem
                                         id={option.id}
-                                        value={option.id}
+                                        value={option.description}
                                     >
                                         {option.description}
                                     </MenuItem>
